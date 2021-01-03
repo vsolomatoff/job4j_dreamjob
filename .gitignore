@@ -1,0 +1,10 @@
+# Default ignored files
+/shelf/
+/.idea
+/out
+/job4j_dreamjob.iml
+
+/job4j_dreamjob/*.iml
+/job4j_dreamjob/target
+
+/target
