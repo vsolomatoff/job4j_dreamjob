@@ -6,12 +6,21 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
+    <servlet-name>IndexServlet</servlet-name>
+    <servlet-class>controller.IndexServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndexServlet</servlet-name>
+    <url-pattern>/index.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>PostServlet</servlet-name>
     <servlet-class>controller.PostServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PostServlet</servlet-name>
-    <url-pattern>/post/save</url-pattern>
+    <url-pattern>/posts.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -20,7 +29,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CandidateServlet</servlet-name>
-    <url-pattern>/candidate/save</url-pattern>
+    <url-pattern>/candidates.do</url-pattern>
   </servlet-mapping>
 
 </web-app>
