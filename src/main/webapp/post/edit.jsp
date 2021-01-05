@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="store.Store" %>
+<%@ page import="store.MemStore" %>
 <%@ page import="model.Post" %>
 <%@ page import="java.util.Date" %>
 <!doctype html>
@@ -26,7 +26,7 @@
     String id = request.getParameter("id");
     Post post = new Post(0, "","",new Date());
     if (id != null) {
-        post = Store.instOf().findByPostId(Integer.parseInt(id));
+        post = MemStore.instOf().findByPostId(Integer.parseInt(id));
     }
 %>
 <div class="container pt-3">
