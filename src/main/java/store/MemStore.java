@@ -15,8 +15,8 @@ public class MemStore implements Store {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
-    private static AtomicInteger POST_ID = new AtomicInteger(4);
-    private static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
+    private static AtomicInteger postid = new AtomicInteger(4);
+    private static AtomicInteger candidateid = new AtomicInteger(4);
 
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job", "", new Date()));
@@ -45,7 +45,7 @@ public class MemStore implements Store {
     @Override
     public void save(Post post) {
         if (post.getId() == 0) {
-            post.setId(POST_ID.incrementAndGet());
+            post.setId(postid.incrementAndGet());
         }
         posts.put(post.getId(), post);
     }
@@ -53,7 +53,7 @@ public class MemStore implements Store {
     @Override
     public void save(Candidate candidate) {
         if (candidate.getId() == 0) {
-            candidate.setId(CANDIDATE_ID.incrementAndGet());
+            candidate.setId(candidateid.incrementAndGet());
         }
         candidates.put(candidate.getId(), candidate);
     }

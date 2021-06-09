@@ -55,13 +55,17 @@ public class Post {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Post Post = (Post) o;
-        return id == Post.id &&
-                Objects.equals(name, Post.name) &&
-                Objects.equals(description, Post.description) &&
-                Objects.equals(created, Post.created);
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Post post = (Post) o;
+        return id == post.id
+                && Objects.equals(name, post.name)
+                && Objects.equals(description, post.description)
+                && Objects.equals(created, post.created);
     }
 
     @Override
