@@ -9,7 +9,7 @@ sudo: false
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонний сервис https://codecov.io/
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  cat codecov.yml | curl --data-binary @- https://codecov.io/validate
 
 # Отправлять уведомление на vv.solomatov@yandex.ru если сборка упала
 notifications:
