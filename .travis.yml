@@ -6,6 +6,13 @@ jdk:
 # используем режим обычного пользователя для сборки проекта.
 sudo: false
 
+services:
+  - postgresql
+before_script:
+  - psql -c "CREATE DATABASE db_solomatov;" -U postgres
+  - psql -c "CREATE USER solomatov WITH PASSWORD '123';" -U postgres
+  - psql -c 'CREATE SCHEMA "solomatov" AUTHORIZATION solomatov;' -U postgres -d db_solomatov
+
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонний сервис https://codecov.io/
 after_success:
