@@ -109,4 +109,12 @@
     </dependency>
   </dependencies>
 
+  <distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>Internal repo</name>
+      <url>file:///Tools/apache-tomcat-9.0.41/webapps/dreamjob</url>
+    </repository>
+  </distributionManagement>
+
 </project>
