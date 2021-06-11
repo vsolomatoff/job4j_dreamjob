@@ -9,10 +9,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class PsqlStore implements Store {
 
@@ -57,7 +54,7 @@ public class PsqlStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(it.getInt("id"), it.getString("name")));
+                    posts.add(new Post(it.getInt("id"), it.getString("name"), it.getString("description"), it.getDate("created")));
                 }
             }
         } catch (Exception e) {
@@ -168,7 +165,7 @@ public class PsqlStore implements Store {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    post = new Post(it.getInt("id"), it.getString("name"));
+                    post = new Post(it.getInt("id"), it.getString("name"), it.getString("description"), it.getDate("created"));
                 }
             }
         } catch (Exception e) {

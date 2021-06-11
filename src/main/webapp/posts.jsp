@@ -44,6 +44,12 @@
                                     </a>
                                     <c:out value="${post.name}"/>
                                 </td>
+                                <td>
+                                    <c:out value="${post.description}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${post.created}"/>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>

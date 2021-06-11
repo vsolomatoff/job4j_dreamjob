@@ -1,0 +1,5 @@
+So far, our servlet does nothing. The task of this servlet is to give the file that lies on the server.
+
+Let's create a folder c:\images\. In that folder let's create a file users.txt. Insert arbitrary text inside the users.txt file.
+
+Now let's add the console output of the contents of the c:\images folder to the servlet
