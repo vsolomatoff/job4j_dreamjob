@@ -1,15 +1,15 @@
 package model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Post {
     private int id;
     private String name;
     private String description;
-    private Date created;
+    private Timestamp created;
 
-    public Post(int id, String name, String description, Date created) {
+    public Post(int id, String name, String description, Timestamp created) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,11 +45,11 @@ public class Post {
         this.description = description;
     }
 
-    public Date getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 

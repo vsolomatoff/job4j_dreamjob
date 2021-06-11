@@ -1,15 +1,18 @@
 package store;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import model.Candidate;
 import model.Post;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
 
 public class PsqlStore implements Store {
 
@@ -50,11 +53,11 @@ public class PsqlStore implements Store {
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post")
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post ORDER BY id")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(it.getInt("id"), it.getString("name"), it.getString("description"), it.getDate("created")));
+                    posts.add(new Post(it.getInt("id"), it.getString("name"), it.getString("description"), it.getTimestamp("created")));
                 }
             }
         } catch (Exception e) {
@@ -67,7 +70,7 @@ public class PsqlStore implements Store {
     public Collection<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate")
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate ORDER BY id")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -100,9 +103,11 @@ public class PsqlStore implements Store {
 
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name, description, created) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
+            ps.setString(2, post.getDescription());
+            ps.setTimestamp(3, post.getCreated());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -134,10 +139,11 @@ public class PsqlStore implements Store {
 
     private void update(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE post SET name = ? WHERE id = ?")
+             PreparedStatement ps =  cn.prepareStatement("UPDATE post SET name = ?, description = ? WHERE id = ?")
         ) {
             ps.setString(1, post.getName());
-            ps.setInt(2, post.getId());
+            ps.setString(2, post.getDescription());
+            ps.setInt(3, post.getId());
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,7 +171,7 @@ public class PsqlStore implements Store {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    post = new Post(it.getInt("id"), it.getString("name"), it.getString("description"), it.getDate("created"));
+                    post = new Post(it.getInt("id"), it.getString("name"), it.getString("description"), it.getTimestamp("created"));
                 }
             }
         } catch (Exception e) {

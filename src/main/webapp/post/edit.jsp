@@ -2,6 +2,7 @@
 <%@ page import="store.PsqlStore" %>
 <%@ page import="model.Post" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.sql.Timestamp" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,7 +25,7 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Post post = new Post(0, "","",new Date());
+    Post post = new Post(0, "", "", new Timestamp(System.currentTimeMillis()));
     if (id != null) {
         post = PsqlStore.instOf().findByPostId(Integer.parseInt(id));
     }

@@ -3,8 +3,8 @@ package store;
 import model.Candidate;
 import model.Post;
 
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,9 +19,9 @@ public class MemStore implements Store {
     private static final AtomicInteger CANDIDATEID = new AtomicInteger(4);
 
     private MemStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "", new Date()));
-        posts.put(2, new Post(2, "Middle Java Job", "", new Date()));
-        posts.put(3, new Post(3, "Senior Java Job", "", new Date()));
+        posts.put(1, new Post(1, "Junior Java Job", "", new Timestamp(System.currentTimeMillis())));
+        posts.put(2, new Post(2, "Middle Java Job", "", new Timestamp(System.currentTimeMillis())));
+        posts.put(3, new Post(3, "Senior Java Job", "", new Timestamp(System.currentTimeMillis())));
         candidates.put(1, new Candidate(1, "Junior Java"));
         candidates.put(2, new Candidate(2, "Middle Java"));
         candidates.put(3, new Candidate(3, "Senior Java"));

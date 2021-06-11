@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class PostServlet extends HttpServlet {
 
@@ -25,8 +25,8 @@ public class PostServlet extends HttpServlet {
                 new Post(
                         Integer.parseInt(req.getParameter("id")),
                         req.getParameter("name"),
-                        "",
-                        new Date()
+                        req.getParameter("description"),
+                        new Timestamp(System.currentTimeMillis())
                 )
         );
         resp.sendRedirect(req.getContextPath() + "/posts.do");

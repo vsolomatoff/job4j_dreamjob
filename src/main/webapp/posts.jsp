@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -32,7 +33,9 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Названия</th>
+                        <th scope="col">Наименование вакансии</th>
+                        <th scope="col">Описание вакансии</th>
+                        <th scope="col">Дата создания</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,7 +51,7 @@
                                     <c:out value="${post.description}"/>
                                 </td>
                                 <td>
-                                    <c:out value="${post.created}"/>
+                                    <fmt:formatDate value="${post.created}" pattern="dd-MM-yyyy HH:mm:ss" />
                                 </td>
                             </tr>
                         </c:forEach>
