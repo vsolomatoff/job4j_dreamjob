@@ -8,20 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 
 public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Started CandidateServlet.doGet");
-        Collection<Candidate> candidates = PsqlStore.instOf().findAllCandidates();
-        candidates.forEach(candidate -> {
-            System.out.println("    *** candidate = " + candidate.getId() + ", " + candidate.getName());
-        });
-        req.setAttribute("candidates", candidates);
+        req.setAttribute("candidates", PsqlStore.instOf().findAllCandidates());
         req.getRequestDispatcher("candidates.jsp").forward(req, resp);
-        System.out.println("Finished CandidateServlet.doGet");
     }
 
     @Override
