@@ -41,6 +41,16 @@
 
   <servlet-mapping>
     <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/upload.test</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UploadImage</servlet-name>
+    <servlet-class>controller.UploadImage</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UploadImage</servlet-name>
     <url-pattern>/upload</url-pattern>
   </servlet-mapping>
 
@@ -51,7 +61,37 @@
 
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
+    <url-pattern>/download.test</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DownloadImage</servlet-name>
+    <servlet-class>controller.DownloadImage</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DownloadImage</servlet-name>
     <url-pattern>/download</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteImage</servlet-name>
+    <servlet-class>controller.DeleteImage</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DeleteImage</servlet-name>
+    <url-pattern>/deleteImage</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteCandidate</servlet-name>
+    <servlet-class>controller.DeleteCandidate</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DeleteCandidate</servlet-name>
+    <url-pattern>/deleteCandidate</url-pattern>
   </servlet-mapping>
 
 </web-app>

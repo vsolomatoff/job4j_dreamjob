@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -196,5 +197,17 @@ public class PsqlStore implements Store {
             e.printStackTrace();
         }
         return candidate;
+    }
+
+    @Override
+    public void deleteCandidate(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement(
+                     "DELETE FROM candidate WHERE id = ?")) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
     }
 }

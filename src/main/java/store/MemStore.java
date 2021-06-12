@@ -68,4 +68,8 @@ public class MemStore implements Store {
         return candidates.get(id);
     }
 
+    @Override
+    public void deleteCandidate(int id) {
+        candidates.remove(id);
+    }
 }
