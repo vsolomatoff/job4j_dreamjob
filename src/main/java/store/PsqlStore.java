@@ -2,6 +2,7 @@ package store;
 
 import model.Candidate;
 import model.Post;
+import model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -222,5 +223,49 @@ public class PsqlStore implements Store {
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void saveUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement(
+                     "INSERT INTO user_dreamjob (name, email, password) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS
+             )) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
+            statement.execute();
+            try (ResultSet id = statement.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (SQLException se) {
+            LOGGER.error(se.toString(), se);
+        }
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        User user = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement(
+                     "SELECT * FROM user_dreamjob WHERE email = ?")) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new User(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password")
+                    );
+                }
+            }
+        } catch (SQLException se) {
+            LOGGER.error(se.toString(), se);
+        }
+        return user;
     }
 }

@@ -2,9 +2,12 @@ package store;
 
 import model.Candidate;
 import model.Post;
+import model.User;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,6 +20,8 @@ public class MemStore implements Store {
 
     private static final AtomicInteger POSTID = new AtomicInteger(4);
     private static final AtomicInteger CANDIDATEID = new AtomicInteger(4);
+
+    private final Map<String, User> users = new ConcurrentHashMap<>();
 
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job", "", new Timestamp(System.currentTimeMillis())));
@@ -72,4 +77,24 @@ public class MemStore implements Store {
     public void deleteCandidate(int id) {
         candidates.remove(id);
     }
+
+    @Override
+    public void saveUser(User user) {
+        users.putIfAbsent(user.getName(), user);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        User result = null;
+        List<User> list = new ArrayList<>(users.values());
+        for (User user : list) {
+            if (user.getEmail().equals(email)) {
+                result = user;
+                break;
+            }
+        }
+        return result;
+    }
+
+
 }

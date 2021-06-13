@@ -2,6 +2,7 @@ package store;
 
 import model.Candidate;
 import model.Post;
+import model.User;
 
 import java.util.Collection;
 
@@ -19,4 +20,8 @@ public interface Store {
     Candidate findByCandidateId(int id);
 
     void deleteCandidate(int id);
+
+    void saveUser(User user);
+
+    User findUserByEmail(String email);
 }
