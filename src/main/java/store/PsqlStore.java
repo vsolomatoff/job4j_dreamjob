@@ -5,8 +5,11 @@ import model.Post;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,10 +25,18 @@ public class PsqlStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
+        String nameFile = "db.properties";
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL urlDbProperties = classLoader.getResource("db.properties");
+        if (urlDbProperties != null) {
+            nameFile = urlDbProperties.getFile();
+        } else {
+            LOGGER.error("File db.properties not found!");
+        }
+        File file = new File(nameFile);
+
         Properties cfg = new Properties();
-        try (BufferedReader io = new BufferedReader(
-                new FileReader("db.properties")
-        )) {
+        try (BufferedReader io = new BufferedReader(new FileReader(file))) {
             cfg.load(io);
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -56,7 +67,7 @@ public class PsqlStore implements Store {
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post ORDER BY id")
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM post ORDER BY id")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -64,7 +75,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return posts;
     }
@@ -73,7 +84,7 @@ public class PsqlStore implements Store {
     public Collection<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate ORDER BY id")
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate ORDER BY id")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -81,7 +92,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return candidates;
     }
@@ -106,7 +117,7 @@ public class PsqlStore implements Store {
 
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name, description, created) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name, description, created) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
@@ -118,14 +129,14 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return post;
     }
 
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
             ps.execute();
@@ -135,33 +146,33 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return candidate;
     }
 
     private void update(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE post SET name = ?, description = ? WHERE id = ?")
+             PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = ?, description = ? WHERE id = ?")
         ) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setInt(3, post.getId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
     private void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE candidate SET name = ? WHERE id = ?")
+             PreparedStatement ps = cn.prepareStatement("UPDATE candidate SET name = ? WHERE id = ?")
         ) {
             ps.setString(1, candidate.getName());
             ps.setInt(2, candidate.getId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -169,7 +180,7 @@ public class PsqlStore implements Store {
     public Post findByPostId(int id) {
         Post post = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE id = ?")
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE id = ?")
         ) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
@@ -178,7 +189,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return post;
     }
@@ -187,7 +198,7 @@ public class PsqlStore implements Store {
     public Candidate findByCandidateId(int id) {
         Candidate candidate = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate WHERE id = ?")
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate WHERE id = ?")
         ) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
@@ -196,7 +207,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return candidate;
     }
@@ -209,7 +220,7 @@ public class PsqlStore implements Store {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 }
