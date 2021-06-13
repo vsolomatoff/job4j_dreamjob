@@ -24,4 +24,6 @@ public interface Store {
     void saveUser(User user);
 
     User findUserByEmail(String email);
+
+    User findUserByName(String email);
 }

@@ -96,5 +96,18 @@ public class MemStore implements Store {
         return result;
     }
 
+    @Override
+    public User findUserByName(String name) {
+        User result = null;
+        List<User> list = new ArrayList<>(users.values());
+        for (User user : list) {
+            if (user.getName().equals(name)) {
+                result = user;
+                break;
+            }
+        }
+        return result;
+    }
+
 
 }

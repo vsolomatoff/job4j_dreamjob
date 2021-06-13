@@ -22,31 +22,26 @@
 </head>
 <body>
 <div class="container pt-3">
-
-  <div class="row">
-    <ul class="nav">
-      <li class="nav-item">
-        <a class="nav-link" href="<%=request.getContextPath()%>/reg.do">Регистрация</a>
-      </li>
-    </ul>
-  </div>
-
   <div class="row">
     <div class="card" style="width: 100%">
       <div class="card-header">
-        Авторизация
+        Регистрация
       </div>
       <div class="card-body">
-        <form action="<%=request.getContextPath()%>/auth.do" method="post">
+        <form action="<%=request.getContextPath()%>/reg.do" method="post">
           <div class="form-group">
-            <label>Почта</label>
-            <input type="text" class="form-control" name="email">
+            <label for="name">Имя</label>
+            <input type="text" class="form-control" name="nameUser" id="name" placeholder="* - введите  имя">
           </div>
           <div class="form-group">
-            <label>Пароль</label>
-            <input type="text" class="form-control" name="password">
+            <label for="email">Электронная почта</label>
+            <input type="text" class="form-control" name="emailUser" id="email" placeholder="* - введите  почту">
           </div>
-          <button type="submit" class="btn btn-primary">Войти</button>
+          <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="text" class="form-control" name="passwordUser" id="password" placeholder="* - введите  пароль">
+          </div>
+          <button type="submit" class="btn btn-primary" onclick="return validate()">Зарегистрироваться</button>
         </form>
       </div>
     </div>
