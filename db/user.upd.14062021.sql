@@ -1,0 +1,1 @@
+ALTER TABLE user_dreamjob DROP CONSTRAINT user_dreamjob_name_key;

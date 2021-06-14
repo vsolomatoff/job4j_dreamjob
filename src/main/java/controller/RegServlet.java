@@ -25,25 +25,23 @@ public class RegServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Started RegServlet.doPost");
         String email = req.getParameter("emailUser");
-        User user = PsqlStore.instOf().findUserByEmail(email);
-        if (user != null) {
-            LOGGER.error("Пользователь с данным email (" + email + ") уже зарегистрирован!");
-            req.setAttribute("error",  "Пользователь с данным email (" + email + ") уже зарегистрирован!");
-            req.getRequestDispatcher("reg.jsp").forward(req, resp);
-        } else {
-            String name = req.getParameter("nameUser");
-            user = PsqlStore.instOf().findUserByName(name);
+        if (email != null && !email.isEmpty()) {
+            User user = PsqlStore.instOf().findUserByEmail(email);
             if (user != null) {
-                LOGGER.error("Данное имя пользователя (" + name + ") уже занято!");
-                req.setAttribute("error",  "Данное имя пользователя (" + name + ") уже занято!");
+                LOGGER.error("Пользователь с данным email (" + email + ") уже зарегистрирован!");
+                req.setAttribute("error",  "Пользователь с данным email (" + email + ") уже зарегистрирован!");
                 req.getRequestDispatcher("reg.jsp").forward(req, resp);
             } else {
                 PsqlStore.instOf().saveUser(
                         new User(0, req.getParameter("nameUser"), email, req.getParameter("passwordUser"))
                 );
-                LOGGER.info("Пользователь (" + name + ") зарегистрирован");
+                LOGGER.info("Пользователь (" + email + ") зарегистрирован");
                 resp.sendRedirect(req.getContextPath() + "/posts.do");
             }
+        } else {
+            LOGGER.error("email не может быть пустым!");
+            req.setAttribute("error",  "email не может быть пустым!");
+            req.getRequestDispatcher("reg.jsp").forward(req, resp);
         }
         System.out.println("Finished RegServlet.doPost");
     }
