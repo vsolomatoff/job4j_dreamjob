@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="model.Candidate" %>
 <%@ page import="store.PsqlStore" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,6 +29,11 @@
         Регистрация
       </div>
       <div class="card-body">
+        <c:if test="${not empty error}">
+          <div style="color:red; font-weight: bold; margin: 20px 0;">
+              <c:out value='${error}'/>
+          </div>
+        </c:if>
         <form action="<%=request.getContextPath()%>/reg.do" method="post">
           <div class="form-group">
             <label for="name">Имя</label>
