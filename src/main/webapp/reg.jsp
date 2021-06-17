@@ -41,11 +41,11 @@
           </div>
           <div class="form-group">
             <label for="email">Электронная почта</label>
-            <input type="text" class="form-control" name="emailUser" id="email" placeholder="* - введите  почту">
+            <input type="text" required class="form-control" name="emailUser" id="email" placeholder="* - введите  почту">
           </div>
           <div class="form-group">
             <label for="password">Пароль</label>
-            <input type="text" class="form-control" name="passwordUser" id="password" placeholder="* - введите  пароль">
+            <input type="password" required class="form-control" name="passwordUser" id="password" placeholder="* - введите  пароль">
           </div>
           <button type="submit" class="btn btn-primary" onclick="return validate()">Зарегистрироваться</button>
         </form>
