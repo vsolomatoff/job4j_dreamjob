@@ -21,6 +21,22 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <title>Работа мечты</title>
+    <script>
+        function validate() {
+            let result = true;
+            let name = $('#name').val();
+            if ((typeof name === 'undefined') || name === "") {
+                alert(`Заполните поле Имя`);
+                result = false;
+            }
+            let description = $('#description').val();
+            if ((typeof description === 'undefined') || description === "") {
+                alert(`Заполните поле Описание`);
+                result = false;
+            }
+            return result;
+        }
+    </script>
 </head>
 <body>
 <%
@@ -65,11 +81,11 @@
                 <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
                     <div class="form-group">
                         <label>Наименование вакансии</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <input type="text" class="form-control" id="name" name="name" value="<%=post.getName()%>">
                         <label>Описание вакансии</label>
-                        <input type="text" class="form-control" name="description" value="<%=post.getDescription()%>">
+                        <input type="text" class="form-control" id="description" name="description" value="<%=post.getDescription()%>">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>
             </div>
         </div>

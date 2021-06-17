@@ -122,4 +122,14 @@
     <url-pattern>/reg.do</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>CityServlet</servlet-name>
+    <servlet-class>controller.CityServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CityServlet</servlet-name>
+    <url-pattern>/cities.do</url-pattern>
+  </servlet-mapping>
+
+
 </web-app>

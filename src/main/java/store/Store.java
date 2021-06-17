@@ -1,6 +1,7 @@
 package store;
 
 import model.Candidate;
+import model.City;
 import model.Post;
 import model.User;
 
@@ -26,4 +27,8 @@ public interface Store {
     User findUserByEmail(String email);
 
     User findUserByName(String email);
+
+    Collection<City> findAllCities();
+
+    City findCityById(int id);
 }

@@ -1,6 +1,7 @@
 package store;
 
 import model.Candidate;
+import model.City;
 import model.Post;
 import model.User;
 
@@ -17,6 +18,7 @@ public class MemStore implements Store {
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+    private final Map<Integer, City> cities = new ConcurrentHashMap<>();
 
     private static final AtomicInteger POSTID = new AtomicInteger(4);
     private static final AtomicInteger CANDIDATEID = new AtomicInteger(4);
@@ -27,9 +29,12 @@ public class MemStore implements Store {
         posts.put(1, new Post(1, "Junior Java Job", "", new Timestamp(System.currentTimeMillis())));
         posts.put(2, new Post(2, "Middle Java Job", "", new Timestamp(System.currentTimeMillis())));
         posts.put(3, new Post(3, "Senior Java Job", "", new Timestamp(System.currentTimeMillis())));
-        candidates.put(1, new Candidate(1, "Junior Java"));
-        candidates.put(2, new Candidate(2, "Middle Java"));
-        candidates.put(3, new Candidate(3, "Senior Java"));
+        candidates.put(1, new Candidate(1, "Junior Java", 3, "Екатеринбург"));
+        candidates.put(2, new Candidate(2, "Middle Java",2, "Воронеж"));
+        candidates.put(3, new Candidate(3, "Senior Java", 1, "Волгоград"));
+        cities.put(1, new City(1, "Волгоград"));
+        cities.put(2, new City(2, "Воронеж"));
+        cities.put(3, new City(3, "Екатеринбург"));
     }
 
     public static MemStore instOf() {
@@ -109,5 +114,14 @@ public class MemStore implements Store {
         return result;
     }
 
+    @Override
+    public Collection<City> findAllCities() {
+        return cities.values();
+    }
+
+    @Override
+    public City findCityById(int id) {
+        return cities.get(id);
+    }
 
 }

@@ -55,6 +55,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Названия</th>
+                        <th scope="col">Город</th>
                         <th scope="col">Фото</th>
                     </tr>
                     </thead>
@@ -69,6 +70,9 @@
                                         <i class="bi bi-trash"></i>
                                     </a>
                                     <c:out value="${candidate.name}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${candidate.city}"/>
                                 </td>
 
                                 <td>
